@@ -18,9 +18,14 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             // TODO: Password verification logic
-            val intent = Intent(this, MainActivity::class.java)
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish() // Close LoginActivity
+
+            val intent = Intent(this, TabsActivity::class.java)
             startActivity(intent)
-            finish() // Close LoginActivity
+            finish()
+
         }
     }
 }
