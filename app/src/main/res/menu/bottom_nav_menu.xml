@@ -3,17 +3,16 @@
 
     <item
         android:id="@+id/tab1"
-        android:icon="@android:drawable/ic_menu_camera"
-        android:title="Tab 1"/>
+        android:title="Info"/>
 
     <item
         android:id="@+id/tab2"
-        android:icon="@android:drawable/ic_menu_gallery"
-        android:title="Tab 2"/>
+        android:title="Guidance"/>
 
     <item
         android:id="@+id/tab3"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="Tab 3"/>
+        android:title="History"/>
+
 
 </menu>
+

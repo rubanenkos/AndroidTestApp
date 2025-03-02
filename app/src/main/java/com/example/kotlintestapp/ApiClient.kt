@@ -8,9 +8,7 @@ import java.io.IOException
 class ApiClient {
     private val client = OkHttpClient()
 
-    fun fetchInventory(context: Context, callback: (String) -> Unit) {
-        val url = "https://petstore.swagger.io/v2/store/inventory"
-
+    fun fetchData(context: Context, url: String, callback: (String) -> Unit) {
         val request = Request.Builder()
             .url(url)
             .get()
@@ -31,12 +29,10 @@ class ApiClient {
                         return
                     }
 
-                    val message = "HTTP Code: ${response.code}"
-                    Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    }
-
                     val responseBody = response.body?.string() ?: "Empty response"
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(context, "Data received", Toast.LENGTH_SHORT).show()
+                    }
                     callback(responseBody)
                 }
             }
