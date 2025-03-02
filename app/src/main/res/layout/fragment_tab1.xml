@@ -3,12 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center">
+
 
     <TextView
-        android:id="@+id/textViewTab1"
+        android:id="@+id/textViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Загрузка..."
-        android:textSize="16sp"/>
+        android:text="Name: Loading..."
+        android:textSize="24sp"
+        android:gravity="start"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="start"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:text="Details: Loading..."
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="start"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="Email: Loading..."
+        android:textSize="18dp" />
+
 </LinearLayout>
