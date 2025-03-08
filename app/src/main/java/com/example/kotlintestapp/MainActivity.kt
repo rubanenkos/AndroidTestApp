@@ -23,14 +23,7 @@ class MainActivity : AppCompatActivity() {
         val userData: EditText = findViewById(R.id.user_data)
         val startButton: Button = findViewById(R.id.start_button)
         val resultTextView: TextView = findViewById(R.id.resultTextView)
-//url = "https://petstore.swagger.io/v2/store/inventory"
-        startButton.setOnClickListener {
-            apiClient.fetchData(this, url = "https://petstore.swagger.io/v2/store/inventory") { responseText ->
-                Handler(Looper.getMainLooper()).post {
-                    resultTextView.text = responseText
-                }
-            }
-        }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

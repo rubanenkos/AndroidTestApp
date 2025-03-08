@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.kotlintestapp.R
 import org.json.JSONObject
@@ -35,22 +36,32 @@ class Tab1Fragment : Fragment() {
     private fun fetchUserData() {
         val url = "http://10.0.2.2:5000/user/3"
 
-        apiClient.fetchData(requireContext(), url) { response ->
+        apiClient.fetchData(requireContext(), url) { response, statusCode ->
             activity?.runOnUiThread {
-                parseUserResponse(response)
+                if (statusCode == 200) {
+                    parseUserResponse(response)
+                } else {
+                    Toast.makeText(requireContext(), "Failed to fetch user data: $statusCode", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
+
 
     private fun fetchDonorData() {
         val url = "http://10.0.2.2:5000/donor/3"
 
-        apiClient.fetchData(requireContext(), url) { response ->
+        apiClient.fetchData(requireContext(), url) { response, statusCode ->
             activity?.runOnUiThread {
-                parseDonorResponse(response)
+                if (statusCode == 200) {
+                    parseDonorResponse(response)
+                } else {
+                    Toast.makeText(requireContext(), "Failed to fetch donor data: $statusCode", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
+
 
 
     private fun parseUserResponse(response: String) {
