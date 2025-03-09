@@ -10,22 +10,38 @@ import com.example.kotlintestapp.R
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.TimeZone
+
 
 class Tab1Fragment : Fragment() {
+
     private lateinit var textViewEmail: TextView
     private lateinit var textViewName: TextView
     private lateinit var textViewDetails: TextView
+    private lateinit var baseUrl: String
+
+
     private val apiClient = ApiClient()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        baseUrl = getString(R.string.base_url)
         val view = inflater.inflate(R.layout.fragment_tab1, container, false)
         textViewEmail = view.findViewById(R.id.textViewEmail)
         textViewName = view.findViewById(R.id.textViewName)
         textViewDetails = view.findViewById(R.id.textViewDetails)
+
+        val email = activity?.intent?.extras?.getString("email")
+
+        if (email != null) {
+//            textViewEmail.text = "Email: $email"
+            Log.d("Tab1Fragment", "Received email: $email")
+        } else {
+            Log.e("Tab1Fragment", "Email is null")
+        }
+
+        fetchUserCoreRole(email)
 
         fetchUserData()
         fetchDonorData()
@@ -33,15 +49,56 @@ class Tab1Fragment : Fragment() {
         return view
     }
 
+    private fun fetchUserCoreRole(email: String?) {
+        if (email == null) {
+            Log.e("Tab1Fragment", "Email is null, cannot fetch user role.")
+            Toast.makeText(requireContext(), "Email is missing", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val encodedEmail = java.net.URLEncoder.encode(email, "UTF-8")
+        val url = "$baseUrl/user/email?email=$encodedEmail"
+        apiClient.fetchData(requireContext(), url) { response, statusCode ->
+            activity?.runOnUiThread {
+                if (statusCode == 200) {
+                    parseUserRoleResponse(response)
+                } else {
+                    Toast.makeText(requireContext(),
+                        "Failed to fetch user role: $statusCode", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun parseUserRoleResponse(response: String) {
+        try {
+            val jsonObject = JSONObject(response)
+            val roleId = jsonObject.optString("role_id")
+            val userId = jsonObject.optString("user_id")
+
+            if (roleId.isNotEmpty()) {
+                Log.d("Tab1Fragment", "User role: $roleId")
+                Toast.makeText(requireContext(), "User role: $roleId", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.w("Tab1Fragment", "User role not found in response.")
+                Toast.makeText(requireContext(), "User role not found", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.e("Tab1Fragment", "Error parsing user role response: ${e.message}")
+            Toast.makeText(requireContext(), "Error parsing response", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun fetchUserData() {
-        val url = "http://10.0.2.2:5000/user/3"
+        val url = "$baseUrl/user/3"
 
         apiClient.fetchData(requireContext(), url) { response, statusCode ->
             activity?.runOnUiThread {
                 if (statusCode == 200) {
                     parseUserResponse(response)
                 } else {
-                    Toast.makeText(requireContext(), "Failed to fetch user data: $statusCode", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),
+                        "Failed to fetch user data: $statusCode", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -49,14 +106,14 @@ class Tab1Fragment : Fragment() {
 
 
     private fun fetchDonorData() {
-        val url = "http://10.0.2.2:5000/donor/3"
-
+        val url = "$baseUrl/donor/3"
         apiClient.fetchData(requireContext(), url) { response, statusCode ->
             activity?.runOnUiThread {
                 if (statusCode == 200) {
                     parseDonorResponse(response)
                 } else {
-                    Toast.makeText(requireContext(), "Failed to fetch donor data: $statusCode", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),
+                        "Failed to fetch donor data: $statusCode", Toast.LENGTH_LONG).show()
                 }
             }
         }

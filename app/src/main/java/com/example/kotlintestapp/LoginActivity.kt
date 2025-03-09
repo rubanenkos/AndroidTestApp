@@ -13,6 +13,7 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var baseUrl: String
     private val apiClient = ApiClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,13 +23,15 @@ class LoginActivity : AppCompatActivity() {
         val loginField: EditText = findViewById(R.id.login_field)
         val passwordField: EditText = findViewById(R.id.password_field)
         val loginButton: Button = findViewById(R.id.login_button)
+        baseUrl = getString(R.string.base_url)
 
         loginButton.setOnClickListener {
             val email = loginField.text.toString().trim()
             val password = passwordField.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    "Please enter email and password", Toast.LENGTH_SHORT).show()
             } else {
                 loginUser(email, password)
             }
@@ -36,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginUser(email: String, password: String) {
-        val url = "http://10.0.2.2:5000/login"
+        val url = "$baseUrl/login"
         val json = JSONObject()
         json.put("email", email)
         json.put("password", password)
@@ -54,28 +57,33 @@ class LoginActivity : AppCompatActivity() {
 
             runOnUiThread {
                 try {
-                    if (statusCode == 200) {  // Проверка успешного кода статуса 200
+                    if (statusCode == 200) {
                         val responseObject = JSONObject(response)
                         val error = responseObject.optString("error")
                         val message = responseObject.optString("message")
 
                         if (error == "Internal Server Error" && message == "Invalid credentials") {
-                            Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,
+                                "Invalid credentials", Toast.LENGTH_SHORT).show()
                         } else {
-                            // Если нет ошибки, показываем успех и продолжаем
-                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+
+                            Log.d("LoginActivity", "Email set in ViewModel: $email")
                             val intent = Intent(this, TabsActivity::class.java)
+                            val bundle = Bundle()
+                            bundle.putString("email", email)
+                            intent.putExtras(bundle)
                             startActivity(intent)
                             finish()
+
                         }
                     } else {
-                        // Если код ответа не 200, показываем ошибку
-                        Toast.makeText(this, "Login failed with status code: $statusCode", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,
+                            "Login failed with status code: $statusCode", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    // Если не удается обработать JSON, выводим ошибку в консоль
                     Log.e("LoginResponseError", "Error parsing response: ${e.message}")
-                    Toast.makeText(this, "An error occurred. Please try again.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,
+                        "An error occurred. Please try again.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
