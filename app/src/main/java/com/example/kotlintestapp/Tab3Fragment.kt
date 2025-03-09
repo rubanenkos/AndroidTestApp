@@ -2,6 +2,7 @@ package com.example.kotlintestapp
 
 import ApiClient
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,32 +11,33 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
-import org.json.JSONObject
 
 class Tab3Fragment : Fragment() {
     private val apiClient = ApiClient()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DonorSessionAdapter
     private val sessionList = mutableListOf<DonorSession>()
+    private lateinit var baseUrl: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_tab3, container, false)
-
+        baseUrl = getString(R.string.base_url)
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = DonorSessionAdapter(sessionList)
         recyclerView.adapter = adapter
+        val donorId = activity?.intent?.extras?.getString("donorId")
 
-        fetchDonorSession()
+        fetchDonorSession(donorId)
         return view
     }
 
-    private fun fetchDonorSession() {
-        val url = "http://10.0.2.2:5000/donation-session/1"
-
+    private fun fetchDonorSession(donorId: String?) {
+        val url = "$baseUrl/donation-session/$donorId"
+        Log.d("Tab3Fragment", "Donor Id role: $donorId")
         apiClient.fetchData(requireContext(), url) { response, statusCode ->
             activity?.runOnUiThread {
                 if (statusCode == 200) {

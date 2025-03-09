@@ -67,13 +67,31 @@ class LoginActivity : AppCompatActivity() {
                                 "Invalid credentials", Toast.LENGTH_SHORT).show()
                         } else {
 
-                            Log.d("LoginActivity", "Email set in ViewModel: $email")
-                            val intent = Intent(this, TabsActivity::class.java)
-                            val bundle = Bundle()
-                            bundle.putString("email", email)
-                            intent.putExtras(bundle)
-                            startActivity(intent)
-                            finish()
+                            fetchUserCoreRole(email) { userCoreData ->
+                                if (userCoreData != null) {
+                                    Log.d("LoginActivity", "User role: ${userCoreData.roleId}, User ID: ${userCoreData.userId}")
+                                    Toast.makeText(this, "User role: ${userCoreData.roleId}, User ID: ${userCoreData.userId}", Toast.LENGTH_SHORT).show()
+
+                                    val intent = Intent(this, TabsActivity::class.java)
+                                    val bundle = Bundle()
+                                    bundle.putString("email", email)
+                                    bundle.putString("roleId", userCoreData.roleId)
+                                    bundle.putString("userId", userCoreData.userId)
+                                    intent.putExtras(bundle)
+                                    startActivity(intent)
+                                    finish()
+
+                                } else {
+                                    Log.e("LoginActivity", "Failed to fetch user core role")
+                                }
+
+//                                val intent = Intent(this, TabsActivity::class.java)
+//                                val bundle = Bundle()
+//                                bundle.putString("email", email)
+//                                intent.putExtras(bundle)
+//                                startActivity(intent)
+//                                finish()
+                            }
 
                         }
                     } else {
@@ -88,4 +106,51 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun fetchUserCoreRole(email: String?, callback: (UserCoreData?) -> Unit) {
+        if (email == null) {
+            Log.e("LoginActivity", "Email is null, cannot fetch user role.")
+            Toast.makeText(this, "Email is missing", Toast.LENGTH_SHORT).show()
+            callback(null)
+            return
+        }
+
+        val encodedEmail = java.net.URLEncoder.encode(email, "UTF-8")
+        val url = "$baseUrl/user/email?email=$encodedEmail"
+        apiClient.fetchData(this, url) { response, statusCode ->
+            runOnUiThread {
+                if (statusCode == 200) {
+                    val user = parseUserRoleResponse(response)
+                    callback(user)
+                } else {
+                    Toast.makeText(this,
+                        "Failed to fetch user role: $statusCode", Toast.LENGTH_LONG).show()
+                    callback(null)
+                }
+            }
+        }
+    }
+
+    private fun parseUserRoleResponse(response: String): UserCoreData? {
+        try {
+            val jsonObject = JSONObject(response)
+            val roleId = jsonObject.optString("role_id")
+            val userId = jsonObject.optString("user_id")
+
+            if (roleId.isNotEmpty()) {
+                Log.d("LoginActivity", "User role: $roleId")
+                Toast.makeText(this, "User role: $roleId", Toast.LENGTH_SHORT).show()
+                return UserCoreData(userId, roleId)
+            } else {
+                Log.w("LoginActivity", "User role not found in response.")
+                Toast.makeText(this, "User role not found", Toast.LENGTH_SHORT).show()
+                return null
+            }
+        } catch (e: Exception) {
+            Log.e("LoginActivity", "Error parsing user role response: ${e.message}")
+            Toast.makeText(this, "Error parsing response", Toast.LENGTH_SHORT).show()
+            return null
+        }
+    }
 }
+
