@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.kotlintestapp.DonorIdListener
 import com.example.kotlintestapp.R
 import com.example.kotlintestapp.TabsActivity
 import com.example.kotlintestapp.UserCoreData
@@ -128,11 +129,9 @@ class Tab1Fragment : Fragment() {
                 if (statusCode == 200) {
                     val donorId = parseDonorResponse(response)
                     if (donorId != null) {
-                        // Передаем donor_id через Bundle
-                        val bundle = Bundle()
-                        bundle.putString("donorId", donorId.toString())
+                        Log.d("Tab1Fragment", "Activity: $activity")
+                        (activity as? DonorIdListener)?.onDonorIdReceived(donorId.toString())
                         Log.d("Tab1Fragment", "Donor Id: $donorId")
-
                     } else {
                         Toast.makeText(requireContext(), "Failed to parse donor data", Toast.LENGTH_LONG).show()
                     }

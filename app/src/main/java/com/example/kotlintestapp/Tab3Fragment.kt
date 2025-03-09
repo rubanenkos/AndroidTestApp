@@ -18,6 +18,7 @@ class Tab3Fragment : Fragment() {
     private lateinit var adapter: DonorSessionAdapter
     private val sessionList = mutableListOf<DonorSession>()
     private lateinit var baseUrl: String
+    private var donorId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,10 +30,22 @@ class Tab3Fragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = DonorSessionAdapter(sessionList)
         recyclerView.adapter = adapter
-        val donorId = activity?.intent?.extras?.getString("donorId")
+//        val donorId = activity?.intent?.extras?.getString("donorId")
 
-        fetchDonorSession(donorId)
+        donorId = arguments?.getString("donorId")
+        if (donorId != null) {
+            fetchDonorSession(donorId)
+        }
         return view
+    }
+
+    fun setDonorId(donorId: String) {
+        Log.d("Tab3Fragment", "setDonorId called with: $donorId")
+        this.donorId = donorId
+        Log.d("Tab3Fragment", "Received donorId: $donorId")
+        if (isAdded) {
+            fetchDonorSession(donorId)
+        }
     }
 
     private fun fetchDonorSession(donorId: String?) {
@@ -94,4 +107,6 @@ class Tab3Fragment : Fragment() {
     private fun formatDate(dateString: String): String {
         return dateString.substring(5, 16)
     }
+
+
 }
