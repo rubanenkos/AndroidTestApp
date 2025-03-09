@@ -7,16 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class TabsActivity : AppCompatActivity(), DonorIdListener{
-    private var donorId: String? = null
+class TabsActivity : AppCompatActivity() {
+    var donorId: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tabs)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        loadFragment(Tab3Fragment()) // Загружаем Tab3Fragment первым
-        loadFragment(Tab1Fragment()) // Затем загружаем Tab1Fragment
+        loadFragment(Tab3Fragment())
+        loadFragment(Tab1Fragment())
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             val selectedFragment: Fragment = when (item.itemId) {
@@ -43,13 +43,5 @@ class TabsActivity : AppCompatActivity(), DonorIdListener{
             .commit()
     }
 
-    override fun onDonorIdReceived(donorId: String) {
-        Log.d("TabsActivity", "onDonorIdReceived called with: $donorId")
-        this.donorId = donorId
-        val tab3Fragment = supportFragmentManager.findFragmentByTag("Tab3Fragment") as? Tab3Fragment
-        Log.d("TabsActivity", "findFragmentByTag returned: $tab3Fragment")
-        if (tab3Fragment != null && tab3Fragment.isAdded) {
-            tab3Fragment.setDonorId(donorId)
-        }
-    }
+
 }

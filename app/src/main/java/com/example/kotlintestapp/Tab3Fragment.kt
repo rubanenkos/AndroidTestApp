@@ -30,7 +30,7 @@ class Tab3Fragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = DonorSessionAdapter(sessionList)
         recyclerView.adapter = adapter
-//        val donorId = activity?.intent?.extras?.getString("donorId")
+
 
         donorId = arguments?.getString("donorId")
         if (donorId != null) {
