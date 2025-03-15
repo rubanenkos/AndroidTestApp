@@ -9,7 +9,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class TabsActivity : AppCompatActivity() {
      var donorId: String? = null
-    private var roleId: String? = null
+     var userId: String? = null
+     var roleId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,14 +20,15 @@ class TabsActivity : AppCompatActivity() {
 
         roleId = intent.extras?.getString("roleId")
         donorId = intent.extras?.getString("donorId")
+        userId = intent.extras?.getString("userId")  // Ensure this is retrieved correctly
 
-        Log.d("TabsActivity", "Received roleId: $roleId, donorId: $donorId")
+        Log.d("TabsActivity", "Received userId: $userId, roleId: $roleId, donorId: $donorId")
 
         loadFragment(Tab1Fragment())
 
         bottomNavigationView.menu.findItem(R.id.tab2).isVisible = roleId == "5"
         bottomNavigationView.menu.findItem(R.id.tab3).isVisible = roleId == "5"
-        bottomNavigationView.menu.findItem(R.id.tab4).isVisible = roleId == "4"
+        bottomNavigationView.menu.findItem(R.id.tab4).isVisible = roleId == "3"
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             val selectedFragment: Fragment = when (item.itemId) {
@@ -45,6 +47,10 @@ class TabsActivity : AppCompatActivity() {
         val bundle = Bundle()
         if (fragment is Tab3Fragment && donorId != null) {
             bundle.putString("donorId", donorId)
+            fragment.arguments = bundle
+        }
+        if (fragment is Tab4Fragment && userId != null) {
+            bundle.putString("userId", userId)
             fragment.arguments = bundle
         }
         val tag = when (fragment) {
