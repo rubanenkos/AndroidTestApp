@@ -49,9 +49,16 @@ class Tab1Fragment : Fragment() {
         Log.d("Tab1Fragment", "User Id: $userId")
         Log.d("Tab1Fragment", "User role Id: $roleId")
 
+        if (roleId != "5") {
+            textViewDetails.visibility = View.GONE
+        }
+
         if (userId != null) {
             fetchUserData(userId)
-            fetchDonorData(userId)
+
+            if (roleId == "5") {
+                fetchDonorData(userId)
+            }
         }
 
 
@@ -83,7 +90,7 @@ class Tab1Fragment : Fragment() {
                 if (statusCode == 200) {
                     val donorId = parseDonorResponse(response)
                     if (donorId != null) {
-                        (activity as? TabsActivity)?.donorId = donorId.toString() // Сохраняем donorId в TabsActivity
+                        (activity as? TabsActivity)?.donorId = donorId.toString()
                         Log.d("Tab1Fragment", "Donor Id: $donorId")
                     } else {
                         Toast.makeText(requireContext(), "Failed to parse donor data", Toast.LENGTH_LONG).show()

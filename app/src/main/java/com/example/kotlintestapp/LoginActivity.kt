@@ -85,12 +85,6 @@ class LoginActivity : AppCompatActivity() {
                                     Log.e("LoginActivity", "Failed to fetch user core role")
                                 }
 
-//                                val intent = Intent(this, TabsActivity::class.java)
-//                                val bundle = Bundle()
-//                                bundle.putString("email", email)
-//                                intent.putExtras(bundle)
-//                                startActivity(intent)
-//                                finish()
                             }
 
                         }

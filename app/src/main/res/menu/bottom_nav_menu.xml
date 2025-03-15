@@ -13,6 +13,10 @@
         android:id="@+id/tab3"
         android:title="History"/>
 
+    <item
+        android:id="@+id/tab4"
+        android:title="Orders"/>
+
 
 </menu>
 
