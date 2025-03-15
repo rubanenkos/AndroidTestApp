@@ -30,7 +30,7 @@ class Tab4Fragment : Fragment() {
 
 
         recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = TransportRouteAdapter(sessionList)
         recyclerView.adapter = adapter
 
