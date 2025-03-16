@@ -1,9 +1,12 @@
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -61,7 +64,8 @@ class Tab1Fragment : Fragment() {
             if (roleId == "5") {
                 editPhoneButton.visibility = View.VISIBLE
                 editPhoneButton.setOnClickListener {
-                    Toast.makeText(context, "Вы можете редактировать данные", Toast.LENGTH_SHORT).show()
+                    showEditPhoneDialog()
+//                    Toast.makeText(context, "Вы можете редактировать данные", Toast.LENGTH_SHORT).show()
                     // Тут ви можете додати логіку для переходу на екран редагування
                 }
             } else {
@@ -75,6 +79,64 @@ class Tab1Fragment : Fragment() {
 
 
         return view
+    }
+
+    private fun showEditPhoneDialog() {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_phone, null)
+        val editTextPhone = dialogView.findViewById<EditText>(R.id.editTextPhone)
+        val buttonSave = dialogView.findViewById<Button>(R.id.buttonSave)
+        val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .create()
+
+        buttonSave.setOnClickListener {
+            val newPhone = editTextPhone.text.toString()
+            if (newPhone.isNotEmpty()) {
+                val userId = activity?.intent?.extras?.getString("userId")
+                if (userId != null) {
+                    updatePhoneInDatabase(userId, newPhone)
+                }
+                dialog.dismiss()
+            } else {
+                editTextPhone.hint = "Це поле не може бути пустим"
+            }
+        }
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun updatePhoneInDatabase(userId: String, newPhone: String) {
+        val url = "$baseUrl/update-donor/phone/$userId"
+        Log.d("Tab1Fragment", "url: $url")
+        apiClient.updatePhone(requireContext(), url, newPhone) { response, statusCode ->
+            activity?.runOnUiThread {
+                if (statusCode == 200) {
+                    updatePhoneOnPage(newPhone)
+                    Toast.makeText(context, "Номер телефону оновлено", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Помилка оновлення номера телефону: $statusCode", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun updatePhoneOnPage(newPhone: String) {
+        // Отримуємо поточний текст з textViewDetails
+        val currentDetails = textViewDetails.text.toString()
+        // Шукаємо рядок з номером телефону
+        val phoneLine = currentDetails.lines().find { it.startsWith("Contact Number:") }
+        if (phoneLine != null) {
+            // Замінюємо старий номер телефону на новий
+            val updatedDetails = currentDetails.replace(phoneLine, "Contact Number: $newPhone")
+            // Оновлюємо textViewDetails
+            textViewDetails.text = updatedDetails
+        }
     }
 
 
