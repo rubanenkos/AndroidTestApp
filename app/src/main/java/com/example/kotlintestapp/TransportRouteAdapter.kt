@@ -1,6 +1,9 @@
 package com.example.kotlintestapp
 
+import ApiClient
+import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 
 class TransportRouteAdapter(private val sessionList: List<TransportRoute>) :
     RecyclerView.Adapter<TransportRouteAdapter.ViewHolder>() {
+
+    private val apiClient = ApiClient()
+    private var baseUrl: String = ""
+    fun setBaseUrl(url: String) {
+        baseUrl = url
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textBloodTransportId: TextView = view.findViewById(R.id.textBloodTransportId)
@@ -37,14 +46,55 @@ class TransportRouteAdapter(private val sessionList: List<TransportRoute>) :
 
         holder.textStartTime.setOnClickListener {
             val context: Context = it.context
-            Toast.makeText(context, "Start for transport ID: ${route.id}", Toast.LENGTH_SHORT).show()
+            startRoute(context, route.id)
         }
 
         holder.textEndTime.setOnClickListener {
             val context: Context = it.context
-            Toast.makeText(context, "Finish for Transport ID: ${route.id}", Toast.LENGTH_SHORT).show()
+            completeRoute(context, route.id)
         }
     }
 
     override fun getItemCount() = sessionList.size
+
+    private fun startRoute(context: Context, routeId: Int?) {
+        if (routeId != null && baseUrl.isNotEmpty()) {
+            val url = "$baseUrl/blood-transport/start/$routeId"
+            Log.d("TransportRouteAdapter", "RouteId: $routeId")
+            apiClient.putData(context, url) { response, statusCode ->
+                Log.d("TransportRouteAdapter", "Response: $response, Status Code: $statusCode")
+
+                (context as Activity).runOnUiThread {
+                    Toast.makeText(context, "Route #${routeId} was started", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Log.e("TransportRouteAdapter", "Invalid routeId or baseUrl not initialized")
+
+            (context as Activity).runOnUiThread {
+                Toast.makeText(context, "Invalid Route ID or baseUrl not initialized", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    private fun completeRoute(context: Context, routeId: Int?) {
+        if (routeId != null && baseUrl.isNotEmpty()) {
+            val url = "$baseUrl/blood-transport/complete/$routeId"
+            Log.d("TransportRouteAdapter", "RouteId: $routeId")
+            apiClient.putData(context, url) { response, statusCode ->
+                Log.d("TransportRouteAdapter", "Response: $response, Status Code: $statusCode")
+
+                (context as Activity).runOnUiThread {
+                    Toast.makeText(context, "Route #${routeId} was finished", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Log.e("TransportRouteAdapter", "Invalid routeId or baseUrl not initialized")
+
+            (context as Activity).runOnUiThread {
+                Toast.makeText(context, "Invalid Route ID or baseUrl not initialized", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

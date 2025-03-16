@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Tab4Fragment : Fragment() {
     private val apiClient = ApiClient()
@@ -25,13 +27,13 @@ class Tab4Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_tab4, container, false)
-        baseUrl = getString(R.string.base_url)
+        baseUrl = getString(R.string.base_url) // Устанавливаем baseUrl из ресурсов
 
-
-
+        // Инициализация RecyclerView и адаптера
         recyclerView = view.findViewById(R.id.recyclerView)
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = TransportRouteAdapter(sessionList)
+        adapter.setBaseUrl(baseUrl) // Передаем baseUrl в адаптер
         recyclerView.adapter = adapter
 
 
@@ -87,10 +89,25 @@ class Tab4Fragment : Fragment() {
 
 
 
-
     private fun formatDate(dateString: String): String {
-        return dateString.substring(5, 16)
+        try {
+            Log.d("Tab4Fragment", "Input date: $dateString")
+
+            val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+            val date = inputFormat.parse(dateString)
+
+            Log.d("Tab4Fragment", "Parsed Date: $date")
+
+            return outputFormat.format(date)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("Tab4Fragment", "Error parsing date: ${e.message}")
+            return "Invalid Date"
+        }
     }
+
+
 
 
 }
