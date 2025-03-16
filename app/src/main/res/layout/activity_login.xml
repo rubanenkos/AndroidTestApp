@@ -2,54 +2,114 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text"
     android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f8fcee"
+    tools:layout_editor_absoluteX="-36dp"
+    tools:layout_editor_absoluteY="182dp">
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/start_screen_big"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WELCOME"
+        android:text="BloodHub"
+        android:textColor="#E41818"
+        android:textSize="70sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.301" />
-
-    <EditText
-        android:id="@+id/password_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:text="123456"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.083" />
 
     <EditText
         android:id="@+id/login_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="43dp"
         android:ems="10"
         android:inputType="text"
         android:text="blood_bank1@yopmail.com"
+        android:textColor="#0F0E0E"
+        android:textColorHint="#CCCCCC"
         app:layout_constraintBottom_toTopOf="@+id/password_field"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.653" />
+        app:layout_constraintVertical_bias="0.931" />
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.Button.UnelevatedButton"
+        android:layout_width="244dp"
+        android:layout_height="64dp"
+        android:backgroundTint="#ee0e3a"
+        android:hapticFeedbackEnabled="false"
         android:text="LOGIN"
+        android:textColorLink="#D92020"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_field"
-        app:layout_constraintVertical_bias="0.235" />
+        app:layout_constraintVertical_bias="0.4" />
+
+    <EditText
+        android:id="@+id/password_field"
+        android:layout_width="249dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="123456"
+        android:textColor="#1D1C1C"
+        android:textColorHint="#CCCCCC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.179"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.826" />
+
+    <TextView
+        android:id="@+id/textViewEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMAIL"
+        android:textColor="#F44336"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <TextView
+        android:id="@+id/textViewPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PASSWORD"
+        android:textColor="#F44336"
+        android:textColorLink="#F44336"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.792" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
