@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -55,6 +56,17 @@ class Tab1Fragment : Fragment() {
 
         if (userId != null) {
             fetchUserData(userId)
+            val editPhoneButton = view.findViewById<ImageButton>(R.id.editPhoneButton)
+
+            if (roleId == "5") {
+                editPhoneButton.visibility = View.VISIBLE
+                editPhoneButton.setOnClickListener {
+                    Toast.makeText(context, "Вы можете редактировать данные", Toast.LENGTH_SHORT).show()
+                    // Тут ви можете додати логіку для переходу на екран редагування
+                }
+            } else {
+                editPhoneButton.visibility = View.GONE
+            }
 
             if (roleId == "5") {
                 fetchDonorData(userId)
