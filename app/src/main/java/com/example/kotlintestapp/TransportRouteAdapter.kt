@@ -11,7 +11,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class TransportRouteAdapter(private val sessionList: List<TransportRoute>) :
+class TransportRouteAdapter(
+    private val sessionList: MutableList<TransportRoute>,
+    private val updateData: () -> Unit
+) :
+
     RecyclerView.Adapter<TransportRouteAdapter.ViewHolder>() {
 
     private val apiClient = ApiClient()
@@ -66,6 +70,7 @@ class TransportRouteAdapter(private val sessionList: List<TransportRoute>) :
 
                 (context as Activity).runOnUiThread {
                     Toast.makeText(context, "Route #${routeId} was started", Toast.LENGTH_SHORT).show()
+                    updateData()
                 }
             }
         } else {
@@ -87,6 +92,7 @@ class TransportRouteAdapter(private val sessionList: List<TransportRoute>) :
 
                 (context as Activity).runOnUiThread {
                     Toast.makeText(context, "Route #${routeId} was finished", Toast.LENGTH_SHORT).show()
+                    updateData()
                 }
             }
         } else {

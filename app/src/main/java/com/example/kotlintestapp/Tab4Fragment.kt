@@ -27,13 +27,14 @@ class Tab4Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_tab4, container, false)
-        baseUrl = getString(R.string.base_url) // Устанавливаем baseUrl из ресурсов
+        baseUrl = getString(R.string.base_url)
 
-        // Инициализация RecyclerView и адаптера
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = TransportRouteAdapter(sessionList)
-        adapter.setBaseUrl(baseUrl) // Передаем baseUrl в адаптер
+        adapter = TransportRouteAdapter(sessionList){
+            fetchTransportRoutes(userId)
+        }
+        adapter.setBaseUrl(baseUrl)
         recyclerView.adapter = adapter
 
 
