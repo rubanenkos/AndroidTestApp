@@ -97,18 +97,18 @@ class Tab3Fragment : Fragment() {
                 totalQuantity += session.getInt("quantity_ml")
             }
 
-            val message = "Вы сдали $totalQuantity мл крови за $totalVisits посещения"
+            val message = "Ви здали $totalQuantity мл кровi за $totalVisits донацiй"
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(requireContext(), "Ошибка обработки данных", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Error while processing data", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun formatDate(dateString: String): String {
         return try {
-            Log.d("DateDebug", "Raw date: $dateString")
+            Log.d("DateError", "Raw date: $dateString")
             val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.ENGLISH)
             val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
             val date = inputFormat.parse(dateString)

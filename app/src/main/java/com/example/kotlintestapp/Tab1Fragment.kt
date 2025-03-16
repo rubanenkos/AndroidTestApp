@@ -65,8 +65,6 @@ class Tab1Fragment : Fragment() {
                 editPhoneButton.visibility = View.VISIBLE
                 editPhoneButton.setOnClickListener {
                     showEditPhoneDialog()
-//                    Toast.makeText(context, "Вы можете редактировать данные", Toast.LENGTH_SHORT).show()
-                    // Тут ви можете додати логіку для переходу на екран редагування
                 }
             } else {
                 editPhoneButton.visibility = View.GONE
@@ -127,14 +125,10 @@ class Tab1Fragment : Fragment() {
     }
 
     private fun updatePhoneOnPage(newPhone: String) {
-        // Отримуємо поточний текст з textViewDetails
         val currentDetails = textViewDetails.text.toString()
-        // Шукаємо рядок з номером телефону
         val phoneLine = currentDetails.lines().find { it.startsWith("Contact Number:") }
         if (phoneLine != null) {
-            // Замінюємо старий номер телефону на новий
             val updatedDetails = currentDetails.replace(phoneLine, "Contact Number: $newPhone")
-            // Оновлюємо textViewDetails
             textViewDetails.text = updatedDetails
         }
     }

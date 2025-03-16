@@ -53,7 +53,7 @@ class TransportRouteAdapter(
         holder.textStartTime.setOnClickListener {
             val context: Context = it.context
             if (holder.textStartTime.text.toString() != "N/A") {
-                Toast.makeText(context, "Маршрут уже начат", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Маршрут вже начатий", Toast.LENGTH_SHORT).show()
             } else {
                 startRoute(context, route.id)
             }
@@ -62,7 +62,7 @@ class TransportRouteAdapter(
         holder.textEndTime.setOnClickListener {
             val context: Context = it.context
             if (holder.textEndTime.toString() != "N/A") {
-                Toast.makeText(context, "Маршрут уже закончен", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Маршрут вже закiнчений", Toast.LENGTH_SHORT).show()
             } else {
                 completeRoute(context, route.id)
             }
@@ -79,7 +79,7 @@ class TransportRouteAdapter(
                 Log.d("TransportRouteAdapter", "Response: $response, Status Code: $statusCode")
 
                 (context as Activity).runOnUiThread {
-                    Toast.makeText(context, "Route #${routeId} was started", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Маршрут #${routeId} розпочато", Toast.LENGTH_SHORT).show()
                     updateData()
                 }
             }
@@ -101,7 +101,7 @@ class TransportRouteAdapter(
                 Log.d("TransportRouteAdapter", "Response: $response, Status Code: $statusCode")
 
                 (context as Activity).runOnUiThread {
-                    Toast.makeText(context, "Route #${routeId} was finished", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Маршрут #${routeId} закінчено", Toast.LENGTH_SHORT).show()
                     updateData()
                 }
             }

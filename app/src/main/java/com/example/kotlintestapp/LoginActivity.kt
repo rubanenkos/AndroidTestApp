@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                             fetchUserCoreRole(email) { userCoreData ->
                                 if (userCoreData != null) {
                                     Log.d("LoginActivity", "User role: ${userCoreData.roleId}, User ID: ${userCoreData.userId}")
-                                    Toast.makeText(this, "User role: ${userCoreData.roleId}, User ID: ${userCoreData.userId}", Toast.LENGTH_SHORT).show()
+//                                    Toast.makeText(this, "User role: ${userCoreData.roleId}, User ID: ${userCoreData.userId}", Toast.LENGTH_SHORT).show()
 
                                     val intent = Intent(this, TabsActivity::class.java)
                                     val bundle = Bundle()
