@@ -237,7 +237,7 @@ class Tab1Fragment : Fragment() {
         return try {
             Log.d("DateDebug", "Raw date: $dateString")
             val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
-            val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
             val date = inputFormat.parse(dateString)
             outputFormat.format(date ?: return "Invalid date")
         } catch (e: Exception) {

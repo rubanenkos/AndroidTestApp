@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class Tab3Fragment : Fragment() {
     private val apiClient = ApiClient()
@@ -105,7 +107,16 @@ class Tab3Fragment : Fragment() {
     }
 
     private fun formatDate(dateString: String): String {
-        return dateString.substring(5, 16)
+        return try {
+            Log.d("DateDebug", "Raw date: $dateString")
+            val inputFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
+            val date = inputFormat.parse(dateString)
+            outputFormat.format(date ?: return "Invalid date")
+        } catch (e: Exception) {
+            Log.e("DateError", "Error parsing date: ${e.message}")
+            "Invalid date"
+        }
     }
 
 
