@@ -48,14 +48,24 @@ class TransportRouteAdapter(
         holder.textEndTime.text = route.endTime
         holder.textStatus.text = route.status
 
+
+
         holder.textStartTime.setOnClickListener {
             val context: Context = it.context
-            startRoute(context, route.id)
+            if (holder.textStartTime.text.toString() != "N/A") {
+                Toast.makeText(context, "Маршрут уже начат", Toast.LENGTH_SHORT).show()
+            } else {
+                startRoute(context, route.id)
+            }
         }
 
         holder.textEndTime.setOnClickListener {
             val context: Context = it.context
-            completeRoute(context, route.id)
+            if (holder.textEndTime.toString() != "N/A") {
+                Toast.makeText(context, "Маршрут уже закончен", Toast.LENGTH_SHORT).show()
+            } else {
+                completeRoute(context, route.id)
+            }
         }
     }
 
