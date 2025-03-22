@@ -53,7 +53,7 @@ class Tab2Fragment : Fragment() {
                         val emptyView = View(context)
                         emptyView.layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
-                            16 // Висота порожнього рядка (можна змінити)
+                            16
                         )
                         linearLayout.addView(emptyView)
                     }

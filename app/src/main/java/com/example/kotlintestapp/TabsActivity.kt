@@ -20,7 +20,7 @@ class TabsActivity : AppCompatActivity() {
 
         roleId = intent.extras?.getString("roleId")
         donorId = intent.extras?.getString("donorId")
-        userId = intent.extras?.getString("userId")  // Ensure this is retrieved correctly
+        userId = intent.extras?.getString("userId")
 
         Log.d("TabsActivity", "Received userId: $userId, roleId: $roleId, donorId: $donorId")
 

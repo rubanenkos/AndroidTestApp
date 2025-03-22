@@ -70,8 +70,6 @@ class LoginActivity : AppCompatActivity() {
                             fetchUserCoreRole(email) { userCoreData ->
                                 if (userCoreData != null) {
                                     Log.d("LoginActivity", "User role: ${userCoreData.roleId}, User ID: ${userCoreData.userId}")
-//                                    Toast.makeText(this, "User role: ${userCoreData.roleId}, User ID: ${userCoreData.userId}", Toast.LENGTH_SHORT).show()
-
                                     val intent = Intent(this, TabsActivity::class.java)
                                     val bundle = Bundle()
                                     bundle.putString("email", email)
@@ -133,11 +131,9 @@ class LoginActivity : AppCompatActivity() {
 
             if (roleId.isNotEmpty()) {
                 Log.d("LoginActivity", "User role: $roleId")
-                Toast.makeText(this, "User role: $roleId", Toast.LENGTH_SHORT).show()
                 return UserCoreData(userId, roleId)
             } else {
                 Log.w("LoginActivity", "User role not found in response.")
-                Toast.makeText(this, "User role not found", Toast.LENGTH_SHORT).show()
                 return null
             }
         } catch (e: Exception) {

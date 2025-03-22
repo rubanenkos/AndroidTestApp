@@ -2,8 +2,6 @@ package com.example.kotlintestapp
 
 import ApiClient
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -11,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class Old_MainActivity : AppCompatActivity() {
 
     private val apiClient = ApiClient()
 

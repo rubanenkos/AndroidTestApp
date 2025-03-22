@@ -43,7 +43,6 @@ class Tab1Fragment : Fragment() {
         val roleId = activity?.intent?.extras?.getString("roleId")
 
         if (email != null) {
-//            textViewEmail.text = "Email: $email"
             Log.d("Tab1Fragment", "Received email: $email")
         } else {
             Log.e("Tab1Fragment", "Email is null")
@@ -98,7 +97,7 @@ class Tab1Fragment : Fragment() {
                 }
                 dialog.dismiss()
             } else {
-                editTextPhone.hint = "Це поле не може бути пустим"
+                editTextPhone.hint = "This field can be empty"
             }
         }
 
@@ -116,9 +115,9 @@ class Tab1Fragment : Fragment() {
             activity?.runOnUiThread {
                 if (statusCode == 200) {
                     updatePhoneOnPage(newPhone)
-                    Toast.makeText(context, "Номер телефону оновлено", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "The phone number is updated", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, "Помилка оновлення номера телефону: $statusCode", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Error updating the phone number: $statusCode", Toast.LENGTH_LONG).show()
                 }
             }
         }

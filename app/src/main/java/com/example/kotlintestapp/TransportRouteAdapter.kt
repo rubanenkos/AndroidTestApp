@@ -53,7 +53,8 @@ class TransportRouteAdapter(
         holder.textStartTime.setOnClickListener {
             val context: Context = it.context
             if (holder.textStartTime.text.toString() != "N/A") {
-                Toast.makeText(context, "Маршрут вже начатий", Toast.LENGTH_SHORT).show()
+                Log.d("TransportRouteAdapter", "textStartTime: $holder.textStartTime.toString()")
+                Toast.makeText(context, "This route is started", Toast.LENGTH_SHORT).show()
             } else {
                 startRoute(context, route.id)
             }
@@ -61,8 +62,9 @@ class TransportRouteAdapter(
 
         holder.textEndTime.setOnClickListener {
             val context: Context = it.context
-            if (holder.textEndTime.toString() != "N/A") {
-                Toast.makeText(context, "Маршрут вже закiнчений", Toast.LENGTH_SHORT).show()
+            if (holder.textEndTime.text.toString() != "N/A") {
+                Log.d("TransportRouteAdapter", "textEndTime: $holder.textEndTime.toString()")
+                Toast.makeText(context, "This route is completed", Toast.LENGTH_SHORT).show()
             } else {
                 completeRoute(context, route.id)
             }
@@ -79,7 +81,7 @@ class TransportRouteAdapter(
                 Log.d("TransportRouteAdapter", "Response: $response, Status Code: $statusCode")
 
                 (context as Activity).runOnUiThread {
-                    Toast.makeText(context, "Маршрут #${routeId} розпочато", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "The route #${routeId} is started", Toast.LENGTH_SHORT).show()
                     updateData()
                 }
             }
@@ -101,7 +103,7 @@ class TransportRouteAdapter(
                 Log.d("TransportRouteAdapter", "Response: $response, Status Code: $statusCode")
 
                 (context as Activity).runOnUiThread {
-                    Toast.makeText(context, "Маршрут #${routeId} закінчено", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "The route #${routeId} completed", Toast.LENGTH_SHORT).show()
                     updateData()
                 }
             }

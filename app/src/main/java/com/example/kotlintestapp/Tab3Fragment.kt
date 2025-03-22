@@ -97,7 +97,7 @@ class Tab3Fragment : Fragment() {
                 totalQuantity += session.getInt("quantity_ml")
             }
 
-            val message = "Ви здали $totalQuantity мл кровi за $totalVisits донацiй"
+            val message = "You have donated $totalQuantity ml of blood in $totalVisits times"
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
 
         } catch (e: Exception) {
