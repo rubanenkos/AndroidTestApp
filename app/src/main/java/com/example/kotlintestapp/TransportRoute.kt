@@ -7,5 +7,6 @@ data class TransportRoute(
     val bankName: String,
     val startTime: String,
     val endTime: String,
-    val status: String
+    val status: String,
+    val requestBloodId: Int
 )

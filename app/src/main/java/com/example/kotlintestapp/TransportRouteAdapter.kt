@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class TransportRouteAdapter(
     private val sessionList: MutableList<TransportRoute>,
@@ -57,6 +59,7 @@ class TransportRouteAdapter(
                 Toast.makeText(context, "This route is started", Toast.LENGTH_SHORT).show()
             } else {
                 startRoute(context, route.id)
+                sendRequestStatus(context, route.requestBloodId, "In Transit")
             }
         }
 
@@ -67,6 +70,7 @@ class TransportRouteAdapter(
                 Toast.makeText(context, "This route is completed", Toast.LENGTH_SHORT).show()
             } else {
                 completeRoute(context, route.id)
+                sendRequestStatus(context, route.requestBloodId, "Delivered")
             }
         }
     }
@@ -93,6 +97,40 @@ class TransportRouteAdapter(
             }
         }
     }
+
+    private fun sendRequestStatus(context: Context, requestBloodId: Int?, status: String) {
+        if (requestBloodId != null && baseUrl.isNotEmpty()) {
+            val url = "$baseUrl/update-blood-request/$requestBloodId"
+            val mediaType = "application/json; charset=utf-8".toMediaType()
+
+            val jsonBody = """
+            {
+                "status": "$status"
+            }
+            """.trimIndent()
+
+            val requestBody = jsonBody.toRequestBody(mediaType)
+
+            Log.d("BloodRequestAdapter", "RequestBloodId: $requestBloodId")
+            Log.d("BloodRequestAdapter", "Request JSON: $jsonBody")
+
+            apiClient.putData(context, url, requestBody) { response, statusCode ->
+                Log.d("BloodRequestAdapter", "Response: $response, Status Code: $statusCode")
+
+                (context as Activity).runOnUiThread {
+                    Toast.makeText(context, "Request #$requestBloodId marked as $status", Toast.LENGTH_SHORT).show()
+                    updateData()
+                }
+            }
+        } else {
+            Log.e("BloodRequestAdapter", "Invalid requestBloodId or baseUrl not initialized")
+
+            (context as Activity).runOnUiThread {
+                Toast.makeText(context, "Invalid Request ID or baseUrl not initialized", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
 
     private fun completeRoute(context: Context, routeId: Int?) {
