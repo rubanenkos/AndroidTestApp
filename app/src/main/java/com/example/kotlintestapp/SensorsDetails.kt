@@ -3,6 +3,8 @@ package com.example.kotlintestapp
 import ApiClient
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,28 +13,14 @@ import org.json.JSONArray
 class SensorsDetails : AppCompatActivity() {
     private val apiClient = ApiClient()
     private lateinit var baseUrl: String
-    private val sensorDataBuilder = StringBuilder()
 
-    private lateinit var textSensorsData: TextView
-
-//    private lateinit var textBloodFridgeId: TextView
-//    private lateinit var textBloodFridgeName: TextView
-//    private lateinit var textStatus: TextView
-//    private lateinit var textTemperature: TextView
-//    private lateinit var textTimestamp: TextView
-
+    private lateinit var sensorsContainer: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sensors_details)
 
-//        textBloodFridgeId = findViewById(R.id.textBloodFridgeId)
-//        textBloodFridgeName = findViewById(R.id.textBloodFridgeName)
-//        textStatus = findViewById(R.id.textStatus)
-//        textTemperature = findViewById(R.id.textTemperature)
-//        textTimestamp = findViewById(R.id.textTimestamp)
-
-        textSensorsData = findViewById(R.id.textSensorsData)
+        sensorsContainer = findViewById(R.id.sensorsContainer)
 
         baseUrl = getString(R.string.base_url)
 
@@ -40,7 +28,7 @@ class SensorsDetails : AppCompatActivity() {
         if (transportId != null) {
             Log.d("SensorsDetails", "before fetching")
             for (sensorId in 1..3) {
-                fetchSensorData("1", sensorId)
+                fetchSensorData(transportId, sensorId)
             }
         } else {
             Toast.makeText(this, "No Transport ID found", Toast.LENGTH_SHORT).show()
@@ -65,22 +53,7 @@ class SensorsDetails : AppCompatActivity() {
                             val temperature = firstItem.getDouble("temperature")
                             val timestamp = firstItem.getString("time_stamp")
 
-                            // Build a block for this sensor
-                            val sensorBlock = """
-                            Sensor $sensorId:
-                            Fridge ID: $bloodFridgeId
-                            Fridge Name: $bloodFridgeName
-                            Status: $status
-                            Temperature: $temperature°C
-                            Timestamp: $timestamp
-                            
-                        """.trimIndent()
-
-                            sensorDataBuilder.append(sensorBlock).append("\n\n")
-
-                            // Update the TextView
-                            val sensorTextView = findViewById<TextView>(R.id.textSensorsData)
-                            sensorTextView.text = sensorDataBuilder.toString()
+                            addSensorBlock(sensorId, bloodFridgeId, bloodFridgeName, status, temperature, timestamp)
 
                             Log.d("SensorsDetails", "Sensor $sensorId data loaded")
 
@@ -99,4 +72,38 @@ class SensorsDetails : AppCompatActivity() {
         }
     }
 
+    private fun addSensorBlock(sensorId: Int, bloodFridgeId: Int, bloodFridgeName: String, status: String, temperature: Double, timestamp: String) {
+        val sensorTextView = TextView(this).apply {
+            text = """
+                
+                Fridge ID: $bloodFridgeId
+                
+                Fridge Name: $bloodFridgeName
+                
+                Status: $status
+                
+                Temperature: $temperature°C
+                
+                Timestamp: $timestamp
+                
+            """.trimIndent()
+            textSize = 18f
+            setTextColor(resources.getColor(android.R.color.black))
+        }
+
+        sensorsContainer.addView(sensorTextView)
+
+        val line = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                2
+            ).apply {
+                topMargin = 16
+                bottomMargin = 16
+            }
+            setBackgroundColor(resources.getColor(android.R.color.darker_gray))
+        }
+
+        sensorsContainer.addView(line)
+    }
 }
