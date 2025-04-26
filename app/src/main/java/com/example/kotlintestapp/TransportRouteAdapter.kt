@@ -3,6 +3,7 @@ package com.example.kotlintestapp
 import ApiClient
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,12 +28,14 @@ class TransportRouteAdapter(
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val textLinkOrderTitle: TextView = view.findViewById(R.id.orderTitle)
         val textBloodTransportId: TextView = view.findViewById(R.id.textBloodTransportId)
         val textHospitalName: TextView = view.findViewById(R.id.textHospitalName)
         val textBankName: TextView = view.findViewById(R.id.textBankName)
         val textStartTime: TextView = view.findViewById(R.id.textStartTime)
         val textEndTime: TextView = view.findViewById(R.id.textEndTime)
         val textStatus: TextView = view.findViewById(R.id.textStatus)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,6 +53,30 @@ class TransportRouteAdapter(
         holder.textEndTime.text = route.endTime
         holder.textStatus.text = route.status
 
+        holder.textLinkOrderTitle.setOnClickListener {
+            val context: Context = it.context
+            val id = holder.textBloodTransportId.text.toString()
+            if (holder.textStatus.text.toString() == "In progress") {
+                val intent = Intent(context, SensorsDetails::class.java)
+                intent.putExtra("transport_id", id)
+                context.startActivity(intent)
+            } else {
+                Log.d("TransportRouteAdapter", "ID: $id - NO DATA")
+            }
+        }
+
+
+//        holder.textLinkOrderTitle.setOnClickListener {
+//
+//            val context: Context = it.context
+//            if (holder.textStatus.text.toString() == "In progress") {
+//                Log.d("TransportRouteAdapter", "ID: ${holder.textBloodTransportId.text} - IN PROGRESS")
+//
+//            } else {
+//                Log.d("TransportRouteAdapter", "ID: ${holder.textBloodTransportId.text} - NO DATA")
+//
+//            }
+//        }
 
 
         holder.textStartTime.setOnClickListener {

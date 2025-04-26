@@ -41,7 +41,7 @@
         android:layout_height="43dp"
         android:ems="10"
         android:inputType="text"
-        android:text="blood_bank1@yopmail.com"
+        android:text="blood_bank5@yopmail.com"
         android:textColor="#0F0E0E"
         android:textColorHint="#CCCCCC"
         app:layout_constraintBottom_toTopOf="@+id/password_field"
