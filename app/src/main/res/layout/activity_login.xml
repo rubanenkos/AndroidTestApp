@@ -56,7 +56,7 @@
         style="@style/Widget.Material3.Button.UnelevatedButton"
         android:layout_width="244dp"
         android:layout_height="64dp"
-        android:backgroundTint="#ee0e3a"
+        android:backgroundTint="#d32026"
         android:hapticFeedbackEnabled="false"
         android:text="LOGIN"
         android:textColorLink="#D92020"
