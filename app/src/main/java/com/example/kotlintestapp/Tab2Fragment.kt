@@ -31,21 +31,27 @@ class Tab2Fragment : Fragment() {
                     "paragraph" -> {
                         val textView = TextView(context)
                         textView.text = item.text
+                        textView.textSize = 18f // Increase paragraph font
+                        textView.setPadding(0, 8, 0, 8) // Space above and below
                         linearLayout.addView(textView)
                     }
                     "heading" -> {
                         val textView = TextView(context)
                         textView.text = item.text
+                        textView.setPadding(0, 16, 0, 8) // More top padding for headings
                         when (item.level) {
                             2 -> textView.textSize = 20f
                             3 -> textView.textSize = 18f
                         }
+                        textView.setTypeface(null, android.graphics.Typeface.BOLD) // Bold headings
                         linearLayout.addView(textView)
                     }
                     "list" -> {
                         item.items?.forEach { listItem ->
                             val textView = TextView(context)
                             textView.text = "• $listItem"
+                            textView.textSize = 18f
+                            textView.setPadding(16, 4, 0, 4) // Indent list items a bit
                             linearLayout.addView(textView)
                         }
                     }
@@ -53,7 +59,7 @@ class Tab2Fragment : Fragment() {
                         val emptyView = View(context)
                         emptyView.layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
-                            16
+                            32
                         )
                         linearLayout.addView(emptyView)
                     }
