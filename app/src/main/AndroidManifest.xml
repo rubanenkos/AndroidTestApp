@@ -17,6 +17,7 @@
 
 
         <activity android:name=".TabsActivity" android:exported="true"/>
+        <activity android:name=".SensorsDetails" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">

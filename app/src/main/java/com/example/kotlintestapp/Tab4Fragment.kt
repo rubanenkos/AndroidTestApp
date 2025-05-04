@@ -78,7 +78,8 @@ class Tab4Fragment : Fragment() {
                 val startTime = if (jsonObject.isNull("start_time")) "N/A" else formatDate(jsonObject.getString("start_time"))
                 val endTime = if (jsonObject.isNull("end_time")) "N/A" else formatDate(jsonObject.getString("end_time"))
                 val status = jsonObject.getString("status")
-                sessionList.add(TransportRoute(id, hospitalName, bankName, startTime, endTime, status))
+                val requestBloodId = jsonObject.getInt("request_blood_id")
+                sessionList.add(TransportRoute(id, hospitalName, bankName, startTime, endTime, status, requestBloodId))
             }
 
             adapter.notifyDataSetChanged()
